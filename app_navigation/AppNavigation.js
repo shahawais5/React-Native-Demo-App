@@ -23,9 +23,9 @@ const AppNavigator=()=>{
                  <Stack.Screen
                 name='ParentScreen'
                 component={ParentScreen}
-                // options={
-                //     {headerShown:false}
-                // }
+                options={
+                    {headerShown:false}
+                }
                 />
                  <Stack.Screen
                 name='LoginScreen'
