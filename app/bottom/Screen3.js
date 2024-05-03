@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Button } from "react-native";
 
-const Screen3 = () => {
+const Screen3 = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -22,6 +22,7 @@ const Screen3 = () => {
           Stay healthy and active every day. Keep track of your fitness goals
           and monitor your progress.
         </Text>
+        <Button title="Go To Tab View" onPress={()=>navigation.navigate('TabView')}/>
       </View>
     </View>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, FlatList, StyleSheet, Button } from "react-native";
+import { View, Text, FlatList, StyleSheet, Button, Pressable } from "react-native";
 
 const products = [
   { id: 1, name: "Product 1", price: "$10" },
@@ -17,17 +17,17 @@ const products = [
 ];
 
 const Screen2 = ({ navigation }) => {
-    const renderItem = ({ item }) => (
-        <View style={styles.item}>
-          <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.price}>{item.price}</Text>
-          <Button
-            title="Go back!"
-            onPress={() => navigation.navigate('LoginScreen')}
-          />
-        </View>
-      );
-      
+  const renderItem = ({ item }) => (
+    <View style={styles.item}>
+      <Text style={styles.name}>{item.name}</Text>
+      <Text style={styles.price}>{item.price}</Text>
+      <Pressable
+        onPress={() => navigation.navigate('DialogueScreen')}>
+        <Text style={{ color: 'blue' }}>Pressable</Text>
+      </Pressable>
+    </View>
+  );
+
 
   return (
     <FlatList

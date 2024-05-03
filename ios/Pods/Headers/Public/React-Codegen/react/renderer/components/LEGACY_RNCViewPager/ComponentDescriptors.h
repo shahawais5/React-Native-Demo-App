@@ -1,0 +1,1 @@
+../../../../../../../../build/generated/ios/react/renderer/components/LEGACY_RNCViewPager/ComponentDescriptors.h

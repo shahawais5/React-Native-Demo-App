@@ -51,7 +51,7 @@ const LoginScreen = ({ navigation }) => {
         if (response.status === 200) {
           // Assuming your API returns a token upon successful login
           const token = response.data.token;
-    
+          console.warn(token);
           // Navigate to home screen upon successful login
           navigation.navigate('ParentScreen');
         } else {
@@ -105,14 +105,14 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
   logo: {
     fontWeight: 'bold',
     fontSize: 30,
     color: 'blue',
     marginBottom: 12,
-    marginTop: 122,
+    marginTop: 250,
   },
   inputView: {
     width: '80%',
