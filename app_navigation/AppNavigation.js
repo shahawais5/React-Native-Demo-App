@@ -44,7 +44,7 @@ const AppNavigator=()=>{
                 }
                 />
                 <Stack.Screen 
-                name='TabView'
+                name='ApiCalls'
                 component={TabViewExample}
                 options={{
                     headerShown:true,

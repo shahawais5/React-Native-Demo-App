@@ -1,77 +1,36 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import axios from 'axios';
+import { myAxiosAuthenticatedRequest } from './MyAxiosApisReq';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [loading, setLoading] = useState(false); // State to manage loading indicator
+  const [loading, setLoading] = useState(false); 
+
 
   const handleLogin = async () => {
-    let isValid = true;
-  
-    if (username.trim() === '') {
-      setUsernameError('Username is required');
-      isValid = false;
-    } else {
-      setUsernameError('');
+    try {
+      const apiUrl = 'https://app.onediamond-staging.trilloapps.com/ajaxLogin';
+      const data = {
+        username: username,
+        password: password
+      };
+      const response = await myAxiosAuthenticatedRequest(apiUrl, data);
+      // Save the token to AsyncStorage
+      await AsyncStorage.setItem('accessToken', response.data.accessToken);
+      const accessToken = AsyncStorage.getItem('accessToken');
+      console.log({accessToken});
+      navigation.navigate('ParentScreen');
+      console.log(response.data);
+    } catch (error) {
+      console.error('Login failed:', error);
     }
-  
-    if (password.trim() === '') {
-      setPasswordError('Password is required');
-      isValid = false;
-    } else {
-      setPasswordError('');
-    }
-  
-    if (isValid) {
-      try {
-        setLoading(true); // Show loading indicator
-    
-        const response = await axios.post(
-          'https://app.onediamond-staging.trilloapps.com/ajaxLogin',
-          {
-            username,
-            password,
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Accept: '*/*',
-              'x-org-name': 'cloud',
-              'x-app-name': 'main',
-            },
-          }
-        );
-    
-        setLoading(false); // Hide loading indicator
-    
-        if (response.status === 200) {
-          // Assuming your API returns a token upon successful login
-          const token = response.data.token;
-          console.warn(token);
-          // Navigate to home screen upon successful login
-          navigation.navigate('ParentScreen');
-        } else {
-          console.log('Unexpected status code:', response.status);
-          alert('An error occurred. Please try again later.'); // Handle unexpected status code
-        }
-      } catch (error) {
-        setLoading(false); // Hide loading indicator
-        if (error.response && error.response.status === 401) {
-          console.log('Bad Credentials');
-          alert('Invalid username or password. Please try again.'); // Handle 401 error
-        } else {
-          console.log('An error occurred:', error);
-          alert('An error occurred. Please try again later.'); // Handle other errors
-        }
-      }
-    }
-    
   };
-
+  
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>React Native</Text>

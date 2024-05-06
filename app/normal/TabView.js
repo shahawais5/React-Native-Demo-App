@@ -1,35 +1,45 @@
-import * as React from 'react';
-import { View, useWindowDimensions } from 'react-native';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import React, { useEffect, useState } from 'react';
+import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
+import { myAxiosGetRequest } from '../MyAxiosApisReq';
 
-const FirstRoute = () => (
-  <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
-);
+const TabViewExample = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-const SecondRoute = () => (
-  <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
-);
+  useEffect(() => {
+    getData();
+  }, []);
 
-const renderScene = SceneMap({
-  first: FirstRoute,
-  second: SecondRoute,
-});
-
-export default function TabViewExample() {
-  const layout = useWindowDimensions();
-
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'first', title: 'First' },
-    { key: 'second', title: 'Second' },
-  ]);
+  const getData = async () => {
+    try {
+      const response = await myAxiosGetRequest('https://jsonplaceholder.typicode.com/posts');
+      setData(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error:', error);
+      setLoading(false);
+    }
+  };
 
   return (
-    <TabView
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={{ width: layout.width }}
-    />
+    <View style={{ flex: 1 }}>
+      <Text style={
+        {marginLeft:12}
+      }>Api Calls</Text>
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <ScrollView>
+          {data.map((item) => (
+            <View key={item.id} style={{ marginBottom: 10 ,margin:12}}>
+              <Text style={{fontWeight:'bold'}}>Title: {item.title}</Text>
+              <Text>Item: {item.body}</Text>
+            </View>
+          ))}
+        </ScrollView>
+      )}
+    </View>
   );
-}
+};
+
+export default TabViewExample;

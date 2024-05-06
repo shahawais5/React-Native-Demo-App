@@ -22,7 +22,7 @@ const Screen3 = ({ navigation }) => {
           Stay healthy and active every day. Keep track of your fitness goals
           and monitor your progress.
         </Text>
-        <Button title="Go To Tab View" onPress={()=>navigation.navigate('TabView')}/>
+        <Button title="Go To Tab View" onPress={()=>navigation.navigate('ApiCalls')}/>
       </View>
     </View>
   );
